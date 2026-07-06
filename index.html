@@ -788,26 +788,17 @@ const PHOTOS = [
 
   let idx = 0;
 
-  function getDriveImageURL(link){
+function getDriveImageURL(link){
     if(!link) return "";
 
     const match = link.match(/\/d\/([a-zA-Z0-9_-]+)/);
 
     if(match){
-      return `https://drive.google.com/uc?export=view&id=${match[1]}`;
+        return `https://lh3.googleusercontent.com/d/${match[1]}`;
     }
 
-    try{
-      const url = new URL(link);
-      const id = url.searchParams.get("id");
-      if(id){
-        return `https://drive.google.com/uc?export=view&id=${id}`;
-      }
-    }catch(e){}
-
     return "";
-  }
-
+}
   function renderPage(){
 
     photoEl.innerHTML =
