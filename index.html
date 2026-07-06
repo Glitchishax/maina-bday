@@ -708,14 +708,31 @@ footer{
       they'll show a cute placeholder instead of a broken image.
 ===================================================== */
 const PHOTOS = [
-  { id: "", caption: "The day it all started" },
-  { id: "", caption: "Mid-game victory pose" },
-  { file: "thetrip.HEIC", caption: "That trip we took" },
-  { id: "", caption: "Just being us" },
-  { id: "", caption: "Her, being unfairly cute" },
-  { id: "", caption: "One more round?" }
+  {
+    link: "https://drive.google.com/file/d/1D8QaBY52bSDEkg4D4bJ0DYB3UrFcQLJ-/view?usp=sharing",
+    caption: "The day it all started"
+  },
+  {
+    link: "https://drive.google.com/file/d/14NCl93_EY5qIXy36jUAxy8ifabnnELXR/view?usp=sharing",
+    caption: "Mid-game victory pose"
+  },
+  {
+    link: "https://drive.google.com/file/d/1cOybxG__GizUyXbx23g_-feSWX8xiJpK/view?usp=sharing",
+    caption: "That trip we took"
+  },
+  {
+    link: "https://drive.google.com/file/d/1GniZCpfuh2jpUa8RpvdljJsS1cLQYRUf/view?usp=sharing",
+    caption: "Just being us"
+  },
+  {
+    link: "https://drive.google.com/file/d/1zDpWIV_7FV8Jc_a3D-r5-OoNHerYJUF3/view?usp=sharing",
+    caption: "Her, being unfairly cute"
+  },
+  {
+    link: "https://drive.google.com/file/d/1ja75CTA6F7S4awgWp4lqYdbtnI2mik9l/view?usp=sharing",
+    caption: "One more round?"
+  }
 ];
-
 /* ---------- Ambient floating hearts/sparkles ---------- */
 (function ambience(){
   const wrap = document.getElementById('ambience');
@@ -768,50 +785,88 @@ const PHOTOS = [
   const pageNumEl = document.getElementById('bookPageNum');
   const prevBtn = document.getElementById('bookPrev');
   const nextBtn = document.getElementById('bookNext');
+
   let idx = 0;
 
-  function renderPage(){
-    photoEl.innerHTML = '<span class="tape tl"></span><span class="tape tr"></span>';
-    const p = PHOTOS[idx];
-    if (p.id && p.id.trim() !== ''){
-      const img = document.createElement('img');
-      img.src = `https://drive.google.com/uc?export=view&id=${p.id.trim()}`;
-      img.alt = p.caption;
-      img.loading = 'lazy';
-      img.onerror = () => {
-        const icon = document.createElement('span');
-        icon.className = 'placeholder-icon';
-        icon.textContent = '📸';
-        photoEl.appendChild(icon);
-      };
-      photoEl.appendChild(img);
-    } else {
-      const icon = document.createElement('span');
-      icon.className = 'placeholder-icon';
-      icon.textContent = '📸';
-      photoEl.appendChild(icon);
+  function getDriveImageURL(link){
+    if(!link) return "";
+
+    const match = link.match(/\/d\/([a-zA-Z0-9_-]+)/);
+
+    if(match){
+      return `https://drive.google.com/uc?export=view&id=${match[1]}`;
     }
+
+    try{
+      const url = new URL(link);
+      const id = url.searchParams.get("id");
+      if(id){
+        return `https://drive.google.com/uc?export=view&id=${id}`;
+      }
+    }catch(e){}
+
+    return "";
+  }
+
+  function renderPage(){
+
+    photoEl.innerHTML =
+      '<span class="tape tl"></span><span class="tape tr"></span>';
+
+    const p = PHOTOS[idx];
+    const imageURL = getDriveImageURL(p.link);
+
+    if(imageURL){
+
+      const img = document.createElement("img");
+      img.src = imageURL;
+      img.alt = p.caption;
+      img.loading = "lazy";
+
+      img.onerror = () => {
+        photoEl.innerHTML =
+          '<span class="tape tl"></span><span class="tape tr"></span><span class="placeholder-icon">📸</span>';
+      };
+
+      photoEl.appendChild(img);
+
+    }else{
+
+      const icon = document.createElement("span");
+      icon.className = "placeholder-icon";
+      icon.textContent = "📸";
+      photoEl.appendChild(icon);
+
+    }
+
     captionEl.textContent = p.caption;
     pageNumEl.textContent = `${idx+1} / ${PHOTOS.length}`;
   }
 
   function turnTo(newIdx){
     bookEl.classList.add('turning');
+
     setTimeout(() => {
+
       idx = (newIdx + PHOTOS.length) % PHOTOS.length;
+
       renderPage();
+
       bookEl.classList.remove('turning');
-    }, 220);
+
+    },220);
   }
 
-  prevBtn.addEventListener('click', () => turnTo(idx - 1));
-  nextBtn.addEventListener('click', () => turnTo(idx + 1));
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'ArrowLeft') turnTo(idx - 1);
-    if (e.key === 'ArrowRight') turnTo(idx + 1);
+  prevBtn.addEventListener('click', () => turnTo(idx-1));
+  nextBtn.addEventListener('click', () => turnTo(idx+1));
+
+  document.addEventListener('keydown',(e)=>{
+    if(e.key==="ArrowLeft") turnTo(idx-1);
+    if(e.key==="ArrowRight") turnTo(idx+1);
   });
 
   renderPage();
+
 })();
 
 /* ---------- Make a Wish: candles + confetti ---------- */
