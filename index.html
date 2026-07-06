@@ -529,6 +529,25 @@ footer{
   z-index:1;
   position:relative;
 }
+  #musicBtn{
+    position:fixed;
+    bottom:20px;
+    right:20px;
+    width:58px;
+    height:58px;
+    border:none;
+    border-radius:50%;
+    background:white;
+    box-shadow:0 10px 25px rgba(0,0,0,.2);
+    cursor:pointer;
+    font-size:24px;
+    z-index:9999;
+    transition:.25s;
+}
+
+#musicBtn:hover{
+    transform:scale(1.08);
+}
 </style>
 </head>
 <body>
@@ -693,6 +712,37 @@ footer{
 <footer>TIKAT MARIM SAD HOI THAKILE</footer>
 
 <script>
+  function startMusic(){
+
+    music.play().catch(()=>{});
+
+    document.removeEventListener("click", startMusic);
+    document.removeEventListener("touchstart", startMusic);
+
+}
+
+document.addEventListener("click", startMusic);
+document.addEventListener("touchstart", startMusic);
+  const music = document.getElementById("bgMusic");
+const btn = document.getElementById("musicBtn");
+
+music.volume = 0.3;
+
+btn.onclick = () => {
+
+    if(music.paused){
+
+        music.play();
+        btn.textContent = "🔇";
+
+    }else{
+
+        music.pause();
+        btn.textContent = "🎵";
+
+    }
+
+};
 
 const PHOTOS = [
   {
@@ -1064,6 +1114,10 @@ function getDriveImageURL(link){
  }
 })();
 </script>
+<audio id="bgMusic" loop preload="auto">
+    <source src="https://res.cloudinary.com/dlqpoiyf9/video/upload/v1783353918/Taylor_Swift_-_Call_It_What_You_Want_Acoustic__SkySound.cc_mubuxc.mp3" type="audio/mpeg">
+</audio>
 
+<button id="musicBtn">🎵</button>
 </body>
 </html>
