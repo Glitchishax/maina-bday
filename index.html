@@ -545,14 +545,7 @@ footer{
     transition:.25s;
 }
 
-#musicBtn:hover{
-    transform:scale(1.08);
-}
-</style>
-</head>
-<body>
 
-<div id="ambience"></div>
 
 <!-- ===================== HERO ===================== -->
 <section class="hero">
@@ -712,37 +705,6 @@ footer{
 <footer>TIKAT MARIM SAD HOI THAKILE</footer>
 
 <script>
-  function startMusic(){
-
-    music.play().catch(()=>{});
-
-    document.removeEventListener("click", startMusic);
-    document.removeEventListener("touchstart", startMusic);
-
-}
-
-document.addEventListener("click", startMusic);
-document.addEventListener("touchstart", startMusic);
-  const music = document.getElementById("bgMusic");
-const btn = document.getElementById("musicBtn");
-
-music.volume = 0.3;
-
-btn.onclick = () => {
-
-    if(music.paused){
-
-        music.play();
-        btn.textContent = "🔇";
-
-    }else{
-
-        music.pause();
-        btn.textContent = "🎵";
-
-    }
-
-};
 
 const PHOTOS = [
   {
