@@ -872,7 +872,7 @@ footer{
         <span id="closeOverlay">&times;</span>
 
         <!-- Replace with your image -->
-        <img src="https://drive.google.com/file/d/18wOJBDmiNJFpisM3_TY25jgp7Jf1RqGD/view?usp=sharing" id="loveImage">
+        <img id="loveImage">
 
         <h1>I Love You</h1>
 
@@ -880,6 +880,14 @@ footer{
 
 </div>
 <script>
+  const driveLink = "https://drive.google.com/file/d/18wOJBDmiNJFpisM3_TY25jgp7Jf1RqGD/view";
+
+function getDriveImageURL(link){
+    const id = link.match(/\/d\/([^/]+)/)[1];
+    return `https://drive.google.com/thumbnail?id=${id}&sz=w1200`;
+}
+
+document.getElementById("loveImage").src = getDriveImageURL(driveLink);
 
 const PHOTOS = [
   {
