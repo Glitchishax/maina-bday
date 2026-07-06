@@ -1081,20 +1081,26 @@ function getDriveImageURL(link){
   console.error('Game failed to initialize:', err);
  }
 })();
- const music = document.getElementById("bgMusic");
-music.volume = 0.3;
+window.addEventListener("DOMContentLoaded", () => {
 
-function startMusic() {
-    music.play().catch(err => console.log(err));
+    const music = document.getElementById("bgMusic");
 
-    document.removeEventListener("pointerdown", startMusic);
-    document.removeEventListener("keydown", startMusic);
-}
+    console.log("Music element:", music);
 
-document.addEventListener("pointerdown", startMusic);
-document.addEventListener("keydown", startMusic);
+    music.volume = 0.3;
 
-document.addEventListener("click", startMusic);
+    document.addEventListener("pointerdown", async () => {
+
+        try {
+            await music.play();
+            console.log("✅ Music started");
+        } catch(err) {
+            console.error("❌ Play failed:", err);
+        }
+
+    }, { once: true });
+
+});
 </script>
 </body>
 </html>
