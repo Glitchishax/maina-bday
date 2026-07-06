@@ -1081,33 +1081,18 @@ function getDriveImageURL(link){
   console.error('Game failed to initialize:', err);
  }
 })();
-  const music = document.getElementById("bgMusic");
-const button = document.getElementById("musicBtn");
-
+ const music = document.getElementById("bgMusic");
 music.volume = 0.3;
 
-button.onclick = () => {
+function startMusic() {
+    music.play().catch(err => console.log(err));
 
-    if (music.paused){
-
-        music.play();
-        button.textContent = "🔇";
-
-    } else {
-
-        music.pause();
-        button.textContent = "🎵";
-
-    }
-
-};
-  function startMusic(){
-
-    music.play().catch(()=>{});
-
-    document.removeEventListener("click", startMusic);
-
+    document.removeEventListener("pointerdown", startMusic);
+    document.removeEventListener("keydown", startMusic);
 }
+
+document.addEventListener("pointerdown", startMusic);
+document.addEventListener("keydown", startMusic);
 
 document.addEventListener("click", startMusic);
 </script>
