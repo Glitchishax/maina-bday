@@ -640,7 +640,7 @@ footer{
 <!-- ===================== PICTURE BOOK ===================== -->
 <section>
   <div class="section-head">
-    <div class="eyebrow">A Few Favorites</div>
+    <div class="eyebrow">Some pics hehehehe</div>
     <h2>Little Moments, Saved</h2>
   </div>
   <div class="book-shell">
@@ -750,6 +750,13 @@ const PHOTOS = [
     wrap.appendChild(el);
   }
 })();
+  const preloadedImages = [];
+
+PHOTOS.forEach(photo => {
+    const img = new Image();
+    img.src = getDriveImageURL(photo.link);
+    preloadedImages.push(img);
+});
 
 /* ---------- Countdown / days together ---------- */
 (function counters(){
