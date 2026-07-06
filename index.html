@@ -750,13 +750,7 @@ const PHOTOS = [
     wrap.appendChild(el);
   }
 })();
-  const preloadedImages = [];
 
-PHOTOS.forEach(photo => {
-    const img = new Image();
-    img.src = getDriveImageURL(photo.link);
-    preloadedImages.push(img);
-});
 
 /* ---------- Countdown / days together ---------- */
 (function counters(){
